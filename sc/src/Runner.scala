@@ -19,6 +19,10 @@ object Runner {
     val check: ChecksumCalculator = new ChecksumCalculator
     check.add(119)
     println(check.checksum)
+    val printTable = new MultiplyTable
+    printTable.multyplyTable
+    println()
+    println(ChecksumCalculator.calcChecksum("love"))
   }
 
 }
