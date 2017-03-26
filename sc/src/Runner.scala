@@ -15,6 +15,10 @@ object Runner {
 
     val pup:Friendly = new Dog with ExclamatoryDog
     println(pup.greet())
+
+    val check: ChecksumCalculator = new ChecksumCalculator
+    check.add(119)
+    println(check.checksum)
   }
 
 }
