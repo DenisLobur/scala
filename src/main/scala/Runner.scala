@@ -15,7 +15,7 @@ object Runner {
     two.greet()
     println()
 
-    val pup:Friendly = new Dog with ExclamatoryDog
+    val pup: Friendly = new Dog with ExclamatoryDog
     println(pup.greet())
 
     val check: ChecksumCalculator = new ChecksumCalculator
@@ -26,7 +26,7 @@ object Runner {
     println()
     println(ChecksumCalculator.calcChecksum("love"))
 
-    val x = new Rational(5,3)
+    val x = new Rational(18, 12)
     print(x)
   }
 

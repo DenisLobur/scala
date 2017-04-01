@@ -4,8 +4,9 @@ package rational
   * Created by Denis on 01-Apr-17.
   */
 class Rational(num: Int, den: Int) {
-  val numer: Int = num
-  val denom: Int = den
+  private val g = gcd(num, den)
+  val numer: Int = num / g
+  val denom: Int = den / g
 
   def this(n: Int) = this(n, 1)
 
@@ -27,4 +28,6 @@ class Rational(num: Int, den: Int) {
 
   override def toString() = "rational: " + numer + "/" + denom
 
+  private def gcd(a: Int, b: Int): Int =
+    if (b == 0) a else gcd(b, a % b)
 }
