@@ -4,30 +4,57 @@ package rational
   * Created by Denis on 01-Apr-17.
   */
 class Rational(num: Int, den: Int) {
+
+  def this(n: Int) = this(n, 1)
+
   private val g = gcd(num, den)
   val numer: Int = num / g
   val denom: Int = den / g
 
-  def this(n: Int) = this(n, 1)
-
-  def add(that: Rational): Rational = {
+  def +(that: Rational): Rational = {
     new Rational(numer * that.denom + that.numer * denom, denom * that.denom)
   }
 
-  def sub(that: Rational): Rational = {
+  def +(that: Int): Rational = {
+    this + new Rational(that)
+  }
+
+  def -(that: Rational): Rational = {
     new Rational(numer * that.denom - that.numer * denom, denom * that.denom)
   }
 
-  def mul(that: Rational): Rational = {
+  def -(that: Int): Rational = {
+    this - new Rational(that)
+  }
+
+  def *(that: Rational): Rational = {
     new Rational(numer * that.numer, denom * that.denom)
   }
 
-  def div(that: Rational): Rational = {
+  def *(that: Int): Rational = {
+    this * new Rational(that)
+  }
+
+  def /(that: Rational): Rational = {
     new Rational(numer * that.denom, denom * that.numer)
   }
 
-  override def toString() = "rational: " + numer + "/" + denom
+  def /(that: Int): Rational = {
+    this / new Rational(that)
+  }
+
+  override def toString: String = "rational: " + numer + "/" + denom
 
   private def gcd(a: Int, b: Int): Int =
     if (b == 0) a else gcd(b, a % b)
+
+  def lessThan(that: Rational): Boolean = {
+    this.numer * that.denom < that.numer * this.denom
+  }
+
+  def max(that: Rational): Rational = {
+    if (this.lessThan(that)) that else this
+  }
+
+  implicit def intToRational(x: Int): Rational = new Rational(x)
 }

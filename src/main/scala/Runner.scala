@@ -26,8 +26,9 @@ object Runner {
     println()
     println(ChecksumCalculator.calcChecksum("love"))
 
-    val x = new Rational(18, 12)
-    print(x)
+    val x = new Rational(1, 2)
+    val y = new Rational(3, 4)
+    print(x + y)
   }
 
 }
