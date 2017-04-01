@@ -1,5 +1,7 @@
 import java.io.File
 
+import rational.Rational
+
 /**
   * Created by Denis on 21-Mar-17.
   */
@@ -23,6 +25,9 @@ object Runner {
     printTable.multyplyTable
     println()
     println(ChecksumCalculator.calcChecksum("love"))
+
+    val x = new Rational(5,3)
+    print(x)
   }
 
 }
