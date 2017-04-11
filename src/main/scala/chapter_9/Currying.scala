@@ -37,4 +37,5 @@ object Currying {
   withPrintWriter(file) {
     writer => writer.println(new java.util.Date)
   }
+
 }
