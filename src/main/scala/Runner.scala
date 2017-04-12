@@ -1,6 +1,7 @@
 import java.io.File
 
 import rational.Rational
+import chapter_10.Spiral
 
 /**
   * Created by Denis on 21-Mar-17.
@@ -28,7 +29,9 @@ object Runner {
 
     val x = new Rational(1, 2)
     val y = new Rational(3, 4)
-    print(x + y)
+    println(x + y)
+
+    println(Spiral.spiral(15, 0))
   }
 
 }
