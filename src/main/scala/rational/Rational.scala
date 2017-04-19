@@ -3,7 +3,7 @@ package rational
 /**
   * Created by Denis on 01-Apr-17.
   */
-class Rational(num: Int, den: Int) {
+class Rational(num: Int, den: Int) extends Ordered[Rational] {
 
   def this(n: Int) = this(n, 1)
 
@@ -57,4 +57,8 @@ class Rational(num: Int, den: Int) {
   }
 
   implicit def intToRational(x: Int): Rational = new Rational(x)
+
+  override def compare(that: Rational): Int = {
+    (this.numer * that.denom) - (that.numer * this.denom)
+  }
 }

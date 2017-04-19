@@ -15,9 +15,11 @@ object Runner {
     one.greet()
     two.greet()
     println()
+    dilimeter
 
     val pup: Friendly = new Dog with ExclamatoryDog
     println(pup.greet())
+    dilimeter
 
     val check: ChecksumCalculator = new ChecksumCalculator
     check.add(119)
@@ -26,12 +28,21 @@ object Runner {
     printTable.multyplyTable
     println()
     println(ChecksumCalculator.calcChecksum("love"))
+    dilimeter
 
     val x = new Rational(1, 2)
     val y = new Rational(3, 4)
     println(x + y)
+    dilimeter
 
     println(Spiral.spiral(15, 0))
+    dilimeter
+
+    val oneHalf = new Rational(1, 2)
+    val oneThird = new Rational(1, 3)
+    println(oneHalf > oneThird)
   }
+
+  private def dilimeter = println("\n=//=//=//=//=//=//=//=//=//=//=//=//=\n")
 
 }
