@@ -32,8 +32,18 @@ someNumbers.exists(_ > 0)
 def sumOld(a: Int, b: Int) = a + b
 def summCurrying(a: Int)(b: Int) = a + b
 
-sumOld(1,4)
+sumOld(1, 4)
 summCurrying(4)(3)
 
-val z = summCurrying(3)_
+val z = summCurrying(3) _
 val zz = z(5)
+
+//Remove elements in odd position in list
+
+val fullList = List[Int](8, 15, 22, 1, 10, 6, 2, 18, 18, 18, 1)
+def f(arr: List[Int]): List[Int] = {
+//  arr.filter(p => arr.indexOf(p) % 2 != 0)
+    arr.zipWithIndex.filter(_._2 % 2 == 1).map(_._1)
+}
+
+f(fullList)
