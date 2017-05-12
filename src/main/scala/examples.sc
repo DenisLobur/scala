@@ -42,8 +42,16 @@ val zz = z(5)
 
 val fullList = List[Int](8, 15, 22, 1, 10, 6, 2, 18, 18, 18, 1)
 def f(arr: List[Int]): List[Int] = {
-//  arr.filter(p => arr.indexOf(p) % 2 != 0)
     arr.zipWithIndex.filter(_._2 % 2 == 1).map(_._1)
 }
 
 f(fullList)
+//Another example
+def another_f(list: List[Int]): List[Int] = {
+    val z = list.zipWithIndex.collect {
+        case (value, index) if index % 2 == 1 => value
+    }
+    z
+}
+
+another_f(fullList)
