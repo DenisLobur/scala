@@ -3,7 +3,7 @@ package chapter_15
 /**
   * Created by Denis on 14-May-17.
   */
-object Express extends App {
+object ExpressRunner extends App {
   val f = new ExprFormatter
   val e1 = BinOp("*", BinOp("/", Number(1), Number(2)), BinOp("+", Var("x"), Number(1)))
   val e2 = BinOp("+", BinOp("/", Var("x"), Number(2)), BinOp("/", Number(1.5), Var("x")))

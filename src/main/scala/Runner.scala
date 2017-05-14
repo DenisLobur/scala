@@ -33,9 +33,6 @@ object Runner {
     println(x + y)
     dilimeter
 
-    println(Spiral.spiral(15, 0))
-    dilimeter
-
     val oneHalf = new Rational(1, 2)
     val oneThird = new Rational(1, 3)
     println(oneHalf > oneThird)
