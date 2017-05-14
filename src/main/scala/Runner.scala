@@ -1,5 +1,3 @@
-import java.io.File
-
 import rational.Rational
 import chapter_10.Spiral
 
