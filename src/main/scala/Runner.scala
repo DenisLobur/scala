@@ -1,5 +1,3 @@
-import java.io.File
-
 import rational.Rational
 import chapter_10.Spiral
 
@@ -33,9 +31,6 @@ object Runner {
     val x = new Rational(1, 2)
     val y = new Rational(3, 4)
     println(x + y)
-    dilimeter
-
-    println(Spiral.spiral(15, 0))
     dilimeter
 
     val oneHalf = new Rational(1, 2)
