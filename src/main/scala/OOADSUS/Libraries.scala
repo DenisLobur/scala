@@ -1,12 +1,23 @@
 package OOADSUS
 
-import scala.io.StdIn
+import java.io.PrintWriter
+
+import scala.io.{Source, StdIn}
 
 /**
   * Created by Denis on 07-Jun-17.
   */
 object Libraries {
   def main(args: Array[String]): Unit = {
+    val source = Source.fromFile("src/main/scala/OOADSUS/matrix.txt")
+    val lines = source.getLines()
+    val matrix = lines.map(_.split(" ").map(_.toDouble)).toArray
+    source.close()
+
+    val pw = new PrintWriter("src/main/scala/OOADSUS/sumRows.txt")
+    matrix.foreach(row => pw.println(row.sum))
+    pw.close()
+
     println("What is your name?")
     val name = StdIn.readLine()
     println("How old are you?")
