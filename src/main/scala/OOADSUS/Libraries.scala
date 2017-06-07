@@ -27,7 +27,12 @@ object Libraries {
     println(result)
     println(concatStrings(result))
     println(concatStringsPat(result))
+
+    val plus3 = add(3)_
+    val plus5 = plus3(5)
   }
+
+  def add(x: Int) (y: Int) = x+y
 
   def buildList(): List[String] = {
     val input = StdIn.readLine()
