@@ -11,7 +11,7 @@ object ListExamples extends App {
   val nums = 1 :: 2 :: 3 :: 4 :: 5 :: Nil
   println(nums.isEmpty)
   println("Sum of odds: " + sumList(nums))
-  println("Length of list: " + getListSize(nums))
+  //println("Length of list: " + getListSize(nums))
 
   def isort(xs: List[Int]): List[Int] =
     if (xs.isEmpty) Nil
@@ -69,11 +69,11 @@ object ListExamples extends App {
     xs.filter(_ % 2 != 0).sum
   }
 
-  def getListSize(xs: List[Int]): Int = {
+  /*def getListSize(xs: List[Int]): Int = {
 
     var ii = for {i <- xs} yield i
 
 
-  }
+  }*/
 
 }
