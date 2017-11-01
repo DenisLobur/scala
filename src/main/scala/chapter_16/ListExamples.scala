@@ -73,7 +73,7 @@ object ListExamples extends App {
 
     var ii = for {i <- xs} yield i
 
-
+ii.size
   }
 
 }
