@@ -41,7 +41,7 @@ gcd(7, 21)
 
 // factorial
 def factorial(x: Int): Int = {
-  if (x == 1) 1
+  if (x == 0) 1
   else x * factorial(x - 1)
 }
 
