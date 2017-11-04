@@ -1,3 +1,4 @@
+import scala.math._
 
 // functional literal
 val x = (z: Int) => z + 1
@@ -42,16 +43,29 @@ val zz = z(5)
 
 val fullList = List[Int](8, 15, 22, 1, 10, 6, 2, 18, 18, 18, 1)
 def f(arr: List[Int]): List[Int] = {
-    arr.zipWithIndex.filter(_._2 % 2 == 1).map(_._1)
+  arr.zipWithIndex.filter(_._2 % 2 == 1).map(_._1)
 }
 
 f(fullList)
 //Another example
 def another_f(list: List[Int]): List[Int] = {
-    val z = list.zipWithIndex.collect {
-        case (value, index) if index % 2 == 1 => value
-    }
-    z
+  val z = list.zipWithIndex.collect {
+    case (value, index) if index % 2 == 1 => value
+  }
+  z
 }
 
 another_f(fullList)
+
+//check if number is prime
+def isPrime(n: Int): Boolean = {
+  def prime(acc: Int): Boolean = {
+    if (acc == 1) true
+    else if (n % acc == 0) false
+    else prime(acc - 1)
+  }
+
+  prime(sqrt(n).toInt)
+}
+
+isPrime(67)

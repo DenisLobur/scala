@@ -40,7 +40,7 @@ object mergeSort {
   def pack[T](xs: List[T]): List[List[T]] = xs match {
     case Nil => Nil
     case x :: xs1 =>
-      val z:(List[T], List[T]) = xs span (y => y == x)
+      val z: (List[T], List[T]) = xs span (y => y == x)
       z._1 :: pack(z._2)
   }
 
@@ -70,4 +70,4 @@ val span = list span (x => x < 0)
 
 val pack = mergeSort.pack(listDuplicated)
 val encode = mergeSort.encode(listDuplicated)
-val pair2: (Int, Int) = (2,3)
+val pair2: (Int, Int) = (2, 3)
