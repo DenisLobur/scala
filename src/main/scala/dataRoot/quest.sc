@@ -1,4 +1,3 @@
-import scala.io.Source
 //#1
 
 val code = "GHMABGZ VKXTMXL LNVVXLL EBDX GHG-LMHI, XGMANLBTLMBV XYYHKM"
@@ -13,12 +12,14 @@ def encode(shift: Int): String = {
 
   outputText
 }
+
 for {
   i <- 1 to 25
 } yield println(encode(i))
 
-val solution = encode(7).toLowerCase.split(' ').map(x => x.head).toList
-println(s"#1 - $solution")
+val ans1 = encode(7).toLowerCase.split(' ').map(x => x.head).toList
+// answer = ncslnee
+println(s"#1 - $ans1")
 
 //#2
 
@@ -60,8 +61,9 @@ val result = addBinary(one, two)
 val zerosAndOnes = result.toList partition (x => x.equals('1'))
 val onesSize = zerosAndOnes._1.size
 val zeroesSize = zerosAndOnes._2.size
-val url = onesSize - zeroesSize
-println(s"#2 - $url")
+val ans2 = onesSize - zeroesSize
+// answer = 73
+println(s"#2 - $ans2")
 
 // #3
 
@@ -93,16 +95,22 @@ println(s"#3 - $ans3")
 //#4
 
 val initArr = "-1,-1,-2,-2,1,-5,1,0,1,14,-8,4,5,-11,13,5,7,-10,-4,3,-6,8,6,2,-9,-1,-4,0"
-
 val listOfNums = initArr.split(",").map(_.toInt).toList
+val z1 = listOfNums.combinations(3).toList
 
-for {
-  i <- 0 to listOfNums.size
-  j <- 0 to listOfNums.size
-  k <- 0 to listOfNums.size
-  if (i + j + k) == 0
-} yield (i, j, k)
+def sortTuple(a: (Int, Int, Int)): (Int, Int, Int) = {
+  List(a._1, a._2, a._3).sorted match {
+    case List(x,y,z) => (x,y,z)
+  }
+}
 
+def sortInList(a:List[List[Int]]):List[List[Int]] = {
+  a.map(l => l.sorted).filter(x => x.sum == 0)
+}
+
+val ans4 = sortInList(z1).distinct.size
+//answer = 42
+println(s"#4 - $ans4")
 
 
 
