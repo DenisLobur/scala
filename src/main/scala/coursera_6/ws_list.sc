@@ -1,4 +1,4 @@
-// Collections, xs - list
+// List, xs - list
 // xs.length - number of elements in xs
 // xs.last - list's lst element, exception if list is empty
 // xs.init - a list consisting of all elements of the list except the last one,
@@ -70,6 +70,42 @@ listOfInts partition (x => x > 3)
 listOfInts takeWhile (x => x < 3)
 listOfInts dropWhile (x => x < 3)
 listOfInts span (x => x < 3)
+
+// reduce operations
+// reduceLeft applies binary operator to all elements of collection going left to right
+
+def sumReduce(xs: List[Int]): Int = (0 :: xs) reduceLeft ((x, y) => x + y)
+
+sumReduce(listOfInts)
+
+def productReduce(xs: List[Int]): Int = (1 :: xs) reduceLeft ((x, y) => x * y)
+
+productReduce(listOfInts)
+
+// fold operations
+// foldLeft applies binary operator to a start value and all elements of this collection going left to right
+
+def sumFoldLeft(xs: List[Int]): Int = (0 :: xs foldLeft 0) (_ + _)
+
+sumFoldLeft(listOfInts)
+
+def productFoldLeft(xs: List[Int]): Int = (xs foldLeft 1) (_ * _)
+
+productFoldLeft(listOfInts)
+
+// Vectors
+val nums = Vector(1, 2, 3, 4, 5)
+val fruits = Vector("oranges", "apples", "bananas")
+
+// add number to beginning of vector
+1 +: nums
+
+// add number to end of vector
+nums :+ 1
+
+
+
+
 
 
 
