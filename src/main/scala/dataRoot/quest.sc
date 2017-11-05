@@ -1,3 +1,4 @@
+import scala.io.Source
 //#1
 
 val code = "GHMABGZ VKXTMXL LNVVXLL EBDX GHG-LMHI, XGMANLBTLMBV XYYHKM"
@@ -47,7 +48,7 @@ def addBinary(a: String, b: String) = {
     carry = add / 2
 
     {
-      i += 1;
+      i += 1
       i - 1
     }
   }
@@ -56,34 +57,18 @@ def addBinary(a: String, b: String) = {
 }
 
 val result = addBinary(one, two)
-
-val zeroes = result.toList filter (x => x.equals('0'))
-
-zeroes.size
-
 val zerosAndOnes = result.toList partition (x => x.equals('1'))
-
 val onesSize = zerosAndOnes._1.size
-
 val zeroesSize = zerosAndOnes._2.size
-
 val url = onesSize - zeroesSize
-
-println(s"#2 - ${url}")
+println(s"#2 - $url")
 
 // #3
 
-// Find sum of polyndromes
-
-def toBinary(n: Int): String = n match {
-  case 0 | 1 => s"$n" // List(n)
-  case _ => s"${toBinary(n / 2)}${n % 2}" //
+def toBinary(n: Int): List[Int] = n match {
+  case 0 | 1 => List(n)
+  case _ => toBinary(n / 2) ++ List[Int](n % 2)
 }
-
-toBinary(120)
-
-val poly = toBinary(120)
-poly.toList
 
 def isPalindrome[A](l: List[A]): Boolean = l match {
   case Nil => true
@@ -91,22 +76,19 @@ def isPalindrome[A](l: List[A]): Boolean = l match {
   case list => list.head == list.last && isPalindrome(list.tail.init)
 }
 
-isPalindrome(List(1, 0, 0, 0, 0, 0, 0, 1))
-
 val range = (1 to 1380).toList
 val z = for {
   i <- range
-  if isPalindrome(toBinary(i).toList)
+  if isPalindrome(toBinary(i))
 } yield i
 
-val poliSize = z.size
-def sumFoldLeft(xs: List[Int]): Int = (0 :: xs foldLeft 0) (_ + _)
+def sumFoldLeft(xs: List[Int]): Int = (xs foldLeft 0) (_ + _)
 
 val ans3 = sumFoldLeft(z)
 
 // answer = 34223
 
-println(s"#3 - ${ans3}")
+println(s"#3 - $ans3")
 
 //#4
 
