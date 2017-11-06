@@ -98,12 +98,6 @@ val initArr = "-1,-1,-2,-2,1,-5,1,0,1,14,-8,4,5,-11,13,5,7,-10,-4,3,-6,8,6,2,-9,
 val listOfNums = initArr.split(",").map(_.toInt).toList
 val z1 = listOfNums.combinations(3).toList
 
-def sortTuple(a: (Int, Int, Int)): (Int, Int, Int) = {
-  List(a._1, a._2, a._3).sorted match {
-    case List(x,y,z) => (x,y,z)
-  }
-}
-
 def sortInList(a:List[List[Int]]):List[List[Int]] = {
   a.map(l => l.sorted).filter(x => x.sum == 0)
 }
@@ -230,7 +224,7 @@ val cc = a.add(b).add(c).add(d).add(e).add(f).add(g).add(h).add(i).add(j)
   .add(u3).add(v3)
 
 // answer = 5537376230
-val ans5 = "5537376230"
+val ans5 = cc.toString.take(10)
 println(s"#5 - $ans5")
 
 
