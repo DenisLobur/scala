@@ -5,7 +5,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.Future
 
-case class Film(id: Option[Long], title: String, duration: Duration, directorId: Long, rating: Double)
+case class Film(id: Option[Long], title: String, duration: Long, directorId: Long, rating: Double)
 
 final class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
 
@@ -13,7 +13,7 @@ final class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
 
   val title = column[String]("title")
 
-  val duration = column[Duration]("duration")
+  val duration = column[Long]("duration")
 
   val directorId = column[Long]("director")
 

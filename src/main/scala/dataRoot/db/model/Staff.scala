@@ -20,6 +20,10 @@ final class StaffTable(tag: Tag) extends Table[Staff](tag, "staff") {
   def * = (id, name, rate, age).mapTo[Staff]
 }
 
+object StaffQuery {
+  lazy val table = TableQuery[StaffTable]
+}
+
 class StaffRepository(db: Database) {
   val staffTableQuery = TableQuery[StaffTable]
 
