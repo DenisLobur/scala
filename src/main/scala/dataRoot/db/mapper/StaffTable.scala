@@ -1,11 +1,13 @@
-package dataRoot.db.model
+package dataRoot.db.mapper
 
+import dataRoot.db.model.Staff
+import dataRoot.db.Example.Message
+import dataRoot.db.model.{Country, Genre, Staff}
 import slick.jdbc.PostgresProfile.api._
 
+import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
-
-case class Staff(id: Option[Long], name: String, rate: String, age: String)
 
 final class StaffTable(tag: Tag) extends Table[Staff](tag, "staff") {
   def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)

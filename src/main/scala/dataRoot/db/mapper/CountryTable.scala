@@ -1,11 +1,15 @@
-package dataRoot.db.model
+package dataRoot.db.mapper
 
+import dataRoot.db.model.Country
+
+import dataRoot.db.model.Staff
+import dataRoot.db.Example.Message
+import dataRoot.db.model.{Country, Genre, Staff}
 import slick.jdbc.PostgresProfile.api._
 
+import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
-
-case class Country(id: Option[Long], title: String)
 
 final class CountryTable(tag: Tag) extends Table[Country](tag, "country") {
   def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)

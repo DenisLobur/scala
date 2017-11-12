@@ -1,11 +1,12 @@
-package dataRoot.db.model
+package dataRoot.db.mapper
 
+import dataRoot.db.Example.Message
+import dataRoot.db.model.{Country, Genre, Staff}
 import slick.jdbc.PostgresProfile.api._
 
+import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
-
-case class Genre(id: Option[Long], title: String, description: String)
 
 final class GenreTable(tag: Tag) extends Table[Genre](tag, "genre") {
   def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
