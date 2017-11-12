@@ -14,6 +14,11 @@ class CountryTable(tag: Tag) extends Table[Country](tag, "country") {
   def * = (id.?, title) <> (Country.apply _ tupled, Country.unapply)
 }
 
+//TODO: add for each table
+object CountryQuery {
+  lazy val table = TableQuery[CountryTable]
+}
+
 //final class FilmToCountryTable(tag: Tag) extends Table[Country](tag, "film_to_country")
 class CountryRepository(db: Database) {
   val countryTableQuery = TableQuery[CountryTable]

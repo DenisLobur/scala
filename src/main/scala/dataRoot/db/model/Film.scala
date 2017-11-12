@@ -19,6 +19,7 @@ final class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
 
   val rating = column[Double]("rating")
 
+  //TODO: Fix mapping
   def * = (id, title, duration, directorId, rating).mapTo[Film]
 }
 
