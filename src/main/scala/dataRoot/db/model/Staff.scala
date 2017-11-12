@@ -1,26 +1,23 @@
 package dataRoot.db.model
 
 import slick.jdbc.PostgresProfile.api._
-
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class Staff(id: Option[Long], name: String, rate: String, age: String)
+case class Staff(id: Option[Long], name: String, rate: Double, age: Int)
 
 final class StaffTable(tag: Tag) extends Table[Staff](tag, "staff") {
-  def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
+  def id = column[Long]("id", O.PrimaryKey)
 
-  def name = column[String]("title")
+  def name = column[String]("name")
 
-  def rate = column[String]("String")
+  def rate = column[Double]("rate")
 
-  def age = column[String]("age")
+  def age = column[Int]("age")
 
-  def * = (id, name, rate, age).mapTo[Staff]
+  def * = (id.?, name, rate, age) <> (Staff.apply _ tupled, Staff.unapply)
 }
 
-object StaffQuery {
+object StaffTable {
   lazy val table = TableQuery[StaffTable]
 }
 

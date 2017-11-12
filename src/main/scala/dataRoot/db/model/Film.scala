@@ -20,7 +20,11 @@ final class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
   val rating = column[Double]("rating")
 
   //TODO: Fix mapping
-  def * = (id, title, duration, directorId, rating).mapTo[Film]
+  def * = (id, title, duration, directorId, rating) <> (Film.apply _ tupled, Film.unapply)
+}
+
+object FilmTable {
+  lazy val table = TableQuery[FilmTable]
 }
 
 case class FilmToGenre(id: Option[Long], filmId: Long, genreId: Long)

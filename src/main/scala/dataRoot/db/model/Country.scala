@@ -14,8 +14,7 @@ class CountryTable(tag: Tag) extends Table[Country](tag, "country") {
   def * = (id.?, title) <> (Country.apply _ tupled, Country.unapply)
 }
 
-//TODO: add for each table
-object CountryQuery {
+object CountryTable {
   lazy val table = TableQuery[CountryTable]
 }
 
