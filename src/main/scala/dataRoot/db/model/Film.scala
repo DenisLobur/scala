@@ -3,14 +3,11 @@ package dataRoot.db.model
 import scala.concurrent.duration.Duration
 import slick.jdbc.PostgresProfile.api._
 
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
+case class Film(id: Option[Long], title: String, duration: Duration, directorId: Long, rating: Double)
 
-case class Film(id: Option[Long], title: String, duration: String, director: String, rating: String, countries: String)
+final class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
 
-case class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
-
-  val id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
+  val id = column[Option[Long]]("id", O.PrimaryKey)
 
   val title = column[String]("title")
 
@@ -21,5 +18,17 @@ case class FilmTable(tag: Tag) extends Table[Film](tag, "film") {
   val rating = column[Double]("rating")
 
   def * = (id, title, duration, directorId, rating).mapTo[Film]
-  //  def * = (id, title, duration, directorId, rating) <> (Film.apply _ tupled, Film.unapply)
+}
+
+case class FilmToGenre(id: Option[Long], filmId: Long, genreId: Long)
+
+class FilmToGenreTable(tag: Tag) extends Table[FilmToGenre](tag, "film_to_genre") {
+
+  val id = column[Option[Long]]("id", O.PrimaryKey)
+  val filmId = column[Long]("film_id")
+  val genreId = column[Long]("genre_id")
+
+
+
+  def * = (id, filmId, genreId).mapTo[FilmToGenre]
 }
