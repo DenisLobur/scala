@@ -2,8 +2,6 @@ package dataRoot.db.model
 
 import slick.jdbc.PostgresProfile.api._
 
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class Country(id: Option[Long], title: String)
