@@ -8,7 +8,7 @@ import scala.concurrent.Future
 
 case class Country(id: Option[Long], title: String)
 
-final class CountryTable(tag: Tag) extends Table[Country](tag, "country") {
+class CountryTable(tag: Tag) extends Table[Country](tag, "country") {
   def id = column[Long]("id", O.PrimaryKey)
 
   def title = column[String]("title")
