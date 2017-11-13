@@ -1,24 +1,27 @@
 package dataRoot.db
 
+import java.util.concurrent.TimeUnit
+
 import dataRoot.db.model._
 import slick.jdbc.PostgresProfile.api._
+
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 object WorkshopDb extends App {
-  val db = Database.forURL("jdbc:postgresql://127.0.0.1/postgres?user=postgres&password=123456789")
+  val db = Database.forURL("jdbc:postgresql://127.0.0.1/movies?user=postgres&password=123456789")
 
   val countryRepository = new CountryRepository(db)
   val genreRepository = new GenreRepository(db)
   val staffRepository = new StaffRepository(db)
   val filmRepository = new FilmRepository(db)
-
+  init()
   databaseFill()
 
   def init(): Unit = {
-    Await.result(db.run(CountryTable.table.schema.create), Duration.Inf)
     Await.result(db.run(StaffTable.table.schema.create), Duration.Inf)
     Await.result(db.run(GenreTable.table.schema.create), Duration.Inf)
+    Await.result(db.run(CountryTable.table.schema.create), Duration.Inf)
     Await.result(db.run(FilmTable.table.schema.create), Duration.Inf)
     Await.result(db.run(FilmToGenreTable.table.schema.create), Duration.Inf)
     Await.result(db.run(FilmToCastTable.table.schema.create), Duration.Inf)
@@ -41,13 +44,8 @@ object WorkshopDb extends App {
 
     for (i <- 1 to 100) {
       Await.result(filmRepository.create(
-        Film(Some(i), s"Film #$i", Duration(i * 10, "SECONDS"), i % 5 + 1, i % 5), List(i % 10 + 1, i % 5 + 1), List(i % 7 + 1, i % 10 + 1), List(i % 5 + 1)
+        Film(Some(i), s"Film #$i", Duration(i * 10, TimeUnit.SECONDS), i % 5 + 1, i % 5), List(i % 10 + 1, i % 5 + 1), List(i % 7 + 1, i % 10 + 1), List(i % 5 + 1)
       ), Duration.Inf)
     }
   }
-
-//  Await.result(db.run(CountryTable.table.schema.create), Duration.Inf)
-//  Await.result(db.run(StaffTable.table.schema.create), Duration.Inf)
-//  Await.result(db.run(GenreTable.table.schema.create), Duration.Inf)
-//  Await.result(db.run(FilmTable.table.schema.create), Duration.Inf)
 }
