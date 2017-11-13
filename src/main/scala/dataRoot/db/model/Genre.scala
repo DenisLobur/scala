@@ -1,25 +1,20 @@
 package dataRoot.db.model
 
 import slick.jdbc.PostgresProfile.api._
-
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class Genre(id: Option[Long], title: String, description: String)
+case class Genre(id: Option[Long], title: String, description: Option[String])
 
-final class GenreTable(tag: Tag) extends Table[Genre](tag, "genre") {
-  def id = column[Long]("id", O.PrimaryKey)
-
-  def title = column[String]("title")
-
-  def description = column[String]("description")
+class GenreTable(tag: Tag) extends Table[Genre](tag, "genres") {
+  val id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  val title = column[String]("title")
+  val description = column[Option[String]]("description")
 
   def * = (id.?, title, description) <> (Genre.apply _ tupled, Genre.unapply)
 }
 
 object GenreTable {
-  lazy val table = TableQuery[GenreTable]
+  val table = TableQuery[GenreTable]
 }
 
 class GenreRepository(db: Database) {

@@ -1,15 +1,13 @@
 package dataRoot.db.model
 
 import slick.jdbc.PostgresProfile.api._
-
 import scala.concurrent.Future
 
 case class Country(id: Option[Long], title: String)
 
-class CountryTable(tag: Tag) extends Table[Country](tag, "country") {
-  def id = column[Long]("id", O.PrimaryKey)
-
-  def title = column[String]("title")
+class CountryTable(tag: Tag) extends Table[Country](tag, "countries") {
+  val id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  val title = column[String]("title")
 
   def * = (id.?, title) <> (Country.apply _ tupled, Country.unapply)
 }
@@ -18,7 +16,6 @@ object CountryTable {
   lazy val table = TableQuery[CountryTable]
 }
 
-//final class FilmToCountryTable(tag: Tag) extends Table[Country](tag, "film_to_country")
 class CountryRepository(db: Database) {
   val countryTableQuery = TableQuery[CountryTable]
 

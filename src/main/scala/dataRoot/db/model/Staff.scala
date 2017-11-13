@@ -6,19 +6,16 @@ import scala.concurrent.Future
 case class Staff(id: Option[Long], name: String, rate: Double, age: Int)
 
 final class StaffTable(tag: Tag) extends Table[Staff](tag, "staff") {
-  def id = column[Long]("id", O.PrimaryKey)
-
-  def name = column[String]("name")
-
-  def rate = column[Double]("rate")
-
-  def age = column[Int]("age")
+  val id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  val name = column[String]("name")
+  val rate = column[Double]("rate")
+  val age = column[Int]("age")
 
   def * = (id.?, name, rate, age) <> (Staff.apply _ tupled, Staff.unapply)
 }
 
 object StaffTable {
-  lazy val table = TableQuery[StaffTable]
+  val table = TableQuery[StaffTable]
 }
 
 class StaffRepository(db: Database) {
