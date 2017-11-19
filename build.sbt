@@ -3,7 +3,10 @@ name := "scalaStuff"
 version := "1.0"
 
 scalaVersion := "2.12.3"
-scalacOptions += "-feature"
+scalacOptions ++= Seq(
+  "-feature",
+  "-unchecked"
+)
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
