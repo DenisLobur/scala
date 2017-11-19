@@ -106,15 +106,15 @@ object Messanger extends App {
   exec(onlyMessages.result).foreach(println)
 
   println("Find first message that HAL sent")
-  val firstHalMessage = messages.filter(_.sender === "HAL").map(_.content)
+  val firstHalMessage = messages.filter(_.sender === "HAL 9000").map(_.content)
   println(exec(firstHalMessage.result.head))
 
   println("Find next five messages HAL sent")
-  val halNextFiveMessages = messages.filter(_.sender === "HAL").map(_.content).drop(1).take(5)
+  val halNextFiveMessages = messages.filter(_.sender === "HAL 9000").map(_.content).drop(1).take(5)
   exec(halNextFiveMessages.result).foreach(println)
 
   println("HAL's tenth through to twentieth messages")
-  val halTenToTwenty = messages.filter(_.sender === "HAL").map(_.content).drop(10).take(10)
+  val halTenToTwenty = messages.filter(_.sender === "HAL 9000").map(_.content).drop(10).take(10)
   exec(halTenToTwenty.result).foreach(println)
 
   println("message starts with 'open'")
@@ -127,6 +127,40 @@ object Messanger extends App {
 
   println("Append '!' at the end")
   exec(messages.map(_.content ++ "!").result).foreach(println)
+
+  println("force insert of Primary key")
+//  val forceInsertAction = messages forceInsert Message("HAL", "I'm a computer, what would I do with a Christmas card anyway?",
+//    1000L)
+//  exec(forceInsertAction)
+
+  println("Check if id = 1000L was inserted")
+  println(exec(messages.filter(_.id === 1000L).exists.result))
+
+//  println("Insert message with getting back its id")
+//  val insertWithBackedId = messages returning messages.map(_.id) += Message("Dave", "Point taken")
+//  println(exec(insertWithBackedId))
+
+//  println("returning just inserted message")
+//  println(exec(messages returning messages += Message("Dave", "So... what do we do now?")))
+
+  println("Delete 1000th id")
+  val deleteThousand = messages.filter(_.id === 1000L).delete
+  exec(deleteThousand)
+
+  println("Remove all rows and restore them back")
+  val removeAndRestore = messages.delete andThen (messages ++= freshTestData) andThen messages.result
+  //exec(removeAndRestore)
+
+  println("Update HAL's name")
+  val updateQuery = messages.filter(_.sender === "HAL").map(_.sender).update("HAL 9000")
+  //exec(updateQuery)
+
+  println("Update multiple columns")
+  val updateMultiple = messages.filter(_.id === 22L).map(message => (message.sender, message.content))
+    .update("Dave 100", "This is not burito")
+  exec(updateMultiple)
+
+
 
 
 
