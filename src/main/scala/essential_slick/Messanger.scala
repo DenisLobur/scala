@@ -2,10 +2,12 @@ package essential_slick
 
 import dataRoot.db.Example.{MessageTable, db, exec, messages}
 import slick.jdbc.PostgresProfile.api._
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
+import scala.util.Try
 
 object Messanger extends App {
   val db = Database.forURL("jdbc:postgresql://localhost/message?user=postgres&password=123456789")
@@ -14,10 +16,10 @@ object Messanger extends App {
   lazy val messages = TableQuery[MessageTable]
 
   // Helper method for running a query in this example file:
-  def exec[T](program: DBIO[T]): T = Await.result(db.run(program), 2 seconds)
+  def exec[T](program: DBIO[T]): T = Await.result(db.run(program), Duration.Inf)
 
-  //  exec(messages.schema.create)
-  //  exec(messages ++= freshTestData)
+  // Drop table if exists, then recreate and populate
+  exec(messages.schema.drop.asTry andThen messages.schema.create andThen (messages ++= freshTestData))
 
   val daveSays = messages.filter(_.sender === "Dave")
   exec(daveSays.result).foreach {
@@ -40,7 +42,7 @@ object Messanger extends App {
 
   val addMessage = Message("Dave", "What if I say 'Pretty please'?")
 
-  //  exec(messages += addMessage)
+  exec(messages += addMessage)
   println("dave only")
   exec(messages.filter(_.sender === "Dave").result).foreach(println)
 
@@ -106,15 +108,15 @@ object Messanger extends App {
   exec(onlyMessages.result).foreach(println)
 
   println("Find first message that HAL sent")
-  val firstHalMessage = messages.filter(_.sender === "HAL 9000").map(_.content)
+  val firstHalMessage = messages.filter(_.sender === "HAL").map(_.content)
   println(exec(firstHalMessage.result.head))
 
   println("Find next five messages HAL sent")
-  val halNextFiveMessages = messages.filter(_.sender === "HAL 9000").map(_.content).drop(1).take(5)
+  val halNextFiveMessages = messages.filter(_.sender === "HAL").map(_.content).drop(1).take(5)
   exec(halNextFiveMessages.result).foreach(println)
 
   println("HAL's tenth through to twentieth messages")
-  val halTenToTwenty = messages.filter(_.sender === "HAL 9000").map(_.content).drop(10).take(10)
+  val halTenToTwenty = messages.filter(_.sender === "HAL").map(_.content).drop(10).take(10)
   exec(halTenToTwenty.result).foreach(println)
 
   println("message starts with 'open'")
@@ -129,19 +131,19 @@ object Messanger extends App {
   exec(messages.map(_.content ++ "!").result).foreach(println)
 
   println("force insert of Primary key")
-//  val forceInsertAction = messages forceInsert Message("HAL", "I'm a computer, what would I do with a Christmas card anyway?",
-//    1000L)
-//  exec(forceInsertAction)
+  //  val forceInsertAction = messages forceInsert Message("HAL", "I'm a computer, what would I do with a Christmas card anyway?",
+  //    1000L)
+  //  exec(forceInsertAction)
 
   println("Check if id = 1000L was inserted")
   println(exec(messages.filter(_.id === 1000L).exists.result))
 
-//  println("Insert message with getting back its id")
-//  val insertWithBackedId = messages returning messages.map(_.id) += Message("Dave", "Point taken")
-//  println(exec(insertWithBackedId))
+  //  println("Insert message with getting back its id")
+  //  val insertWithBackedId = messages returning messages.map(_.id) += Message("Dave", "Point taken")
+  //  println(exec(insertWithBackedId))
 
-//  println("returning just inserted message")
-//  println(exec(messages returning messages += Message("Dave", "So... what do we do now?")))
+  //  println("returning just inserted message")
+  //  println(exec(messages returning messages += Message("Dave", "So... what do we do now?")))
 
   println("Delete 1000th id")
   val deleteThousand = messages.filter(_.id === 1000L).delete
@@ -160,10 +162,48 @@ object Messanger extends App {
     .update("Dave 100", "This is not burito")
   exec(updateMultiple)
 
+  println("Delete all messages")
+  exec(messages.delete)
 
+  println("Insert 'First' before first message")
 
+  def insertFirst(m: Message): DBIO[Int] = {
+    messages.size.result.flatMap {
+      case 0 => (messages += Message(m.sender, "First!")) andThen (messages += m)
+      case n => messages += m
+    }
+  }
 
+  println("inserting one message to db")
+  exec(insertFirst(Message("Me", "Hello")))
 
+  println("checking the bd after insertion")
+  exec(messages.result).foreach(println)
+
+  exec(messages ++= freshTestData)
+
+  def onlyOne[T](action: DBIO[Seq[T]]): DBIO[T] = action.flatMap {
+    case m +: Nil => DBIO.successful(m)
+    case y +: ys => DBIO.failed(new RuntimeException(s"Expected one result, ${(y +: ys).length}"))
+  }
+
+  val happy = messages.filter(_.content like "%sorry%").result
+  val boom = messages.filter(_.content like "%I%").result
+
+  println("check if success or fail")
+  //println(exec(onlyOne(happy)))
+  //exec(onlyOne(boom))
+
+  def exactlyOne[T](action: DBIO[Seq[T]]): DBIO[Try[T]] = onlyOne(action).asTry
+  println(exec(exactlyOne(happy)))
+  println(exec(exactlyOne(boom)))
+
+  def myFilter[T](action: DBIO[T])(p: T => Boolean)(alternative: => T) = action.map {
+    case t if p(t) => t
+    case _ => alternative
+  }
+
+  println(exec(myFilter(messages.size.result)(_ > 100)(100)))
 
   def freshTestData = Seq(
     Message("Dave", "Hello, HAL. Do you read me, HAL?"),
