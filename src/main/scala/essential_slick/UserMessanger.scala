@@ -87,4 +87,42 @@ object UserMessanger extends App {
 
   println("Query messages in Air Lock room and outside".toUpperCase)
   exec(setupWithRoom).foreach(println)
+
+
+  val usersAndRooms = {
+    userMessages join users on (_.senderId === _.id) join rooms on {
+      case ((msg, usr), room) => msg.roomId === room.id
+    }
+  }.map {
+    case ((msg, usr), room) => (msg.content, usr.name, room.title)
+  }
+
+  println("Choosing all messages from users and said in Air Lock room".toUpperCase)
+  exec(usersAndRooms.result).foreach(println)
+
+  val messagePerUser = {
+    userMessages.groupBy(_.senderId)
+      .map {
+        case (senderId, msgs) => senderId -> msgs.length
+      }
+  }
+
+  println("How many messages every user said?".toUpperCase)
+  exec(messagePerUser.result).foreach(println)
+
+  val messagePerUsername = {
+    (userMessages join users on (_.senderId === _.id))
+      .groupBy {
+        case (msg, usr) => usr.name
+      }.map {
+      case (name, group) => (name, group.length, group.map{
+        case (msg, usr) => msg.id
+      }.min)
+    }
+  }
+
+  println("How many messages every user said with names?".toUpperCase)
+  exec(messagePerUsername.result).foreach(println)
+
+
 }
